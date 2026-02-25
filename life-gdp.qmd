@@ -1,0 +1,20 @@
+---
+title: "Life Expectancy and GDP per Capita"
+---
+
+This page analyses the relationship between life expectancy and population across countries over time.
+
+```{r}
+library(ggplot2)
+gap <- read.csv("gapminder.csv")
+ggplot(gap, aes(x=gdp_per_capita, y=life_expectancy, color=continent)) +
+  geom_point(alpha=0.6) +
+  scale_x_log10() +
+  facet_wrap(~year) +
+  labs(
+    x = "GDP per Capita (log scale)",
+    y = "Life Expectancy",
+    color = "Continent"
+  ) +
+  theme_minimal()
+```

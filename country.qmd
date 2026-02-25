@@ -1,0 +1,38 @@
+---
+title: "Country Analysis - China"
+---
+
+This page analyses changes in life expectancy, GDP per capita, and population over time for China.
+
+## Life Expectancy
+
+```{r}
+library(ggplot2)
+gap <- read.csv("gapminder.csv")
+country_data <- subset(gap, country=="China")
+ggplot(country_data, aes(x=year, y=life_expectancy)) +
+  geom_line(color="steelblue", size=1.2) +
+  geom_point(color="steelblue") +
+  labs(title="Life Expectancy Over Time", x="Year", y="Life Expectancy") +
+  theme_minimal()
+```
+
+## GDP Per Capita
+
+```{r}
+ggplot(country_data, aes(x=year, y=gdp_per_capita)) +
+  geom_line(color="darkgreen", size=1.2) +
+  geom_point(color="darkgreen") +
+  labs(title="GDP per Capita Over Time", x="Year", y="GDP per Capita") +
+  theme_minimal()
+```
+
+## Population
+
+```{r}
+ggplot(country_data, aes(x=year, y=population_millions)) +
+  geom_line(color="orange", size=1.2) +
+  geom_point(color="orange") +
+  labs(title="Population Over Time", x="Year", y="Population (millions)") +
+  theme_minimal()
+```

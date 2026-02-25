@@ -1,0 +1,20 @@
+---
+title: "Life Expectancy and Population"
+---
+
+This page analyses the relationship between life expectancy and population across countries over time.
+
+```{r}
+library(ggplot2)
+gap <- read.csv("gapminder.csv")
+ggplot(gap, aes(x=population_millions, y=life_expectancy, color=continent)) +
+  geom_point(alpha=0.6) +
+  scale_x_log10() +
+  facet_wrap(~year) +
+  labs(
+    x = "Population (millions, log scale)",
+    y = "Life Expectancy",
+    color = "Continent"
+  ) +
+  theme_minimal()
+```
