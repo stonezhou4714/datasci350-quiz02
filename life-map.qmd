@@ -1,0 +1,89 @@
+---
+title: "Life Expectancy Map"
+---
+
+This page shows an interactive world map of countries' life expectancy.
+
+```{r}
+#| echo: false
+name_mapping <- c(
+  "Bosnia and Herzegovina" = "Bosnia and Herzegovina",
+  "Central African Republic" = "Central African Republic",
+  "Congo, Dem. Rep." = "Democratic Republic of the Congo",
+  "Congo, Rep." = "Republic of the Congo",
+  "Cote d'Ivoire" = "Ivory Coast",
+  "Czech Republic" = "Czechia",
+  "Dominican Republic" = "Dominican Rep.",
+  "Equatorial Guinea" = "Equatorial Guinea",
+  "Hong Kong, China" = "Hong Kong",
+  "Korea, Dem. Rep." = "North Korea",
+  "Korea, Rep." = "South Korea",
+  "Reunion" = "Réunion",
+  "Sao Tome and Principe" = "Sao Tome and Principe",
+  "Slovak Republic" = "Slovakia",
+  "Swaziland" = "Eswatini",
+  "United States" = "United States of America",
+  "West Bank and Gaza" = "Palestine",
+  "Yemen, Rep." = "Yemen"
+)
+```
+
+```{r}
+library(leaflet)
+library(dplyr)
+library(readr)
+library(rnaturalearth)
+library(rnaturalearthdata)
+gap <- read_csv("gapminder.csv")
+gap_latest <- gap %>% filter(year == max(year))
+name_mapping <- c(
+  "Bosnia and Herzegovina" = "Bosnia and Herzegovina",
+  "Central African Republic" = "Central African Republic",
+  "Congo, Dem. Rep." = "Democratic Republic of the Congo",
+  "Congo, Rep." = "Republic of the Congo",
+  "Cote d'Ivoire" = "Ivory Coast",
+  "Czech Republic" = "Czechia",
+  "Dominican Republic" = "Dominican Rep.",
+  "Equatorial Guinea" = "Equatorial Guinea",
+  "Hong Kong, China" = "Hong Kong",
+  "Korea, Dem. Rep." = "North Korea",
+  "Korea, Rep." = "South Korea",
+  "Reunion" = "Réunion",
+  "Sao Tome and Principe" = "Sao Tome and Principe",
+  "Slovak Republic" = "Slovakia",
+  "Swaziland" = "Eswatini",
+  "United States" = "United States of America",
+  "West Bank and Gaza" = "Palestine",
+  "Yemen, Rep." = "Yemen"
+)
+gap_latest$country <- ifelse(
+  gap_latest$country %in% names(name_mapping),
+  name_mapping[gap_latest$country],
+  gap_latest$country
+)
+world <- ne_countries(scale = "medium", returnclass = "sf")
+map_data <- merge(world, gap_latest, by.x="name", by.y="country", all.x=TRUE)
+pal <- colorNumeric("YlOrRd", map_data$life_expectancy, na.color="lightgrey")
+leaflet(map_data) %>%
+  addTiles() %>%
+  addPolygons(
+    fillColor = ~pal(life_expectancy),
+    weight = 1,
+    color = "white",
+    dashArray = "3",
+    fillOpacity = 0.7,
+    highlight = highlightOptions(
+      weight = 2,
+      color = "#666",
+      fillOpacity = 0.9,
+      bringToFront = TRUE
+    ),
+    label = ~paste0(name, ": ", ifelse(is.na(life_expectancy), "No data", round(life_expectancy,1)))
+  ) %>%
+  addLegend(
+    pal = pal,
+    values = ~life_expectancy,
+    title = "Life Expectancy",
+    position = "bottomright"
+  )
+```

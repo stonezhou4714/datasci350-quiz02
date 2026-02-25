@@ -1,0 +1,29 @@
+
+.navbar {
+  background-color: #003366 !important;
+}
+
+.navbar a, .navbar-brand {
+  color: #ffffff !important;
+
+.navbar a:hover {
+  color: #ffcc00 !important;
+}
+
+h1, h2, h3 {
+  color: #003366 !important;
+  font-family: "Arial", sans-serif;
+}
+
+body {
+  color: #222222 !important;
+  font-family: "Verdana", sans-serif;
+}
+
+a {
+  color: #006699 !important;
+}
+
+a:hover {
+  color: #ff6600 !important;
+}
