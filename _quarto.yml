@@ -14,8 +14,6 @@ website:
         href: life-population.qmd
       - text: "Country Analysis"
         href: country.qmd
-      - text: "Life Expectancy Map"
-        href: life-map.qmd
 
 format:
   html:
